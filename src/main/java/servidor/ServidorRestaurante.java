@@ -5,7 +5,7 @@ import model.Pedido;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
+//servidor
 public class ServidorRestaurante {
     public static void main(String[] args) {
         int porta = 12345;
