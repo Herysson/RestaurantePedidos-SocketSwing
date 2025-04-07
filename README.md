@@ -1,8 +1,6 @@
+# 🍽️ Sistema de Pedidos de Restaurante - Java Swing + Sockets
 
-
-# 🍽️ Sistema de Pedidos de Restaurante - Java Swing + Socket
-
-Este é um projeto didático que simula um sistema de pedidos para um pequeno restaurante com **3 mesas**, onde cada mesa é representada por um cliente com interface gráfica (Java Swing) que envia os pedidos para um **servidor central** por meio de **Sockets TCP/IP**.
+Este é um projeto didático que simula um sistema de pedidos para um pequeno restaurante com **3 mesas**, onde cada mesa é representada por um cliente com interface gráfica (Java Swing) que envia os pedidos para um **servidor central** via **Sockets TCP/IP**.
 
 ---
 
@@ -11,8 +9,8 @@ Este é um projeto didático que simula um sistema de pedidos para um pequeno re
 - Java 17+
 - Java Swing (interface gráfica)
 - `java.net.Socket` e `java.net.ServerSocket` (comunicação em rede)
-- Threads Java (para lidar com múltiplos clientes)
-- Serializable (para envio de objetos entre cliente e servidor)
+- Threads Java (concorrência no servidor)
+- Serializable (para envio de objetos)
 - IntelliJ IDEA (IDE recomendada)
 
 ---
@@ -22,13 +20,11 @@ Este é um projeto didático que simula um sistema de pedidos para um pequeno re
 ```
 src/
 ├── cliente/
-│   ├── ClienteMesa1.java
-│   ├── ClienteMesa2.java
-│   └── ClienteMesa3.java
+│   └── ClienteMesa.java        # Classe única e genérica para todas as mesas
 ├── servidor/
 │   └── ServidorRestaurante.java
 └── model/
-    └── Pedido.java
+    └── Pedido.java             # Modelo do pedido, serializável
 ```
 
 ---
@@ -41,61 +37,80 @@ git clone https://github.com/seu-usuario/RestaurantePedidos-SocketSwing.git
 cd RestaurantePedidos-SocketSwing
 ```
 
-### 2. Compile o projeto no IntelliJ
-- Abra o projeto com IntelliJ IDEA.
-- Marque a pasta `src` como `Sources Root` se necessário.
-
-### 3. Execute o servidor
-Execute a classe:
-```
-servidor/ServidorRestaurante.java
-```
-
-### 4. Execute um ou mais clientes (mesas)
-Execute qualquer uma das classes:
-```
-cliente/ClienteMesa1.java
-cliente/ClienteMesa2.java
-cliente/ClienteMesa3.java
+### 2. Compile o projeto (se necessário)
+Se estiver usando linha de comando:
+```bash
+javac cliente/ClienteMesa.java servidor/ServidorRestaurante.java model/Pedido.java
 ```
 
 ---
 
-## 📸 Demonstração
+## ▶️ Executando o servidor
 
-> A interface gráfica de cada mesa permite selecionar os itens do cardápio e enviá-los ao servidor com um clique.
+Execute o servidor primeiro:
+
+```bash
+java servidor.ServidorRestaurante
+```
+
+---
+
+## 🧑‍💻 Executando os clientes (mesas)
+
+Você pode abrir quantos clientes quiser, informando o número da mesa como argumento:
+
+```bash
+java cliente.ClienteMesa 1
+java cliente.ClienteMesa 2
+java cliente.ClienteMesa 3
+```
+
+Ou configure no IntelliJ da seguinte forma:
+
+### IntelliJ (GUI):
+1. Vá em **Run > Edit Configurations...**
+2. Crie novas configurações do tipo **Application**
+3. Para cada cliente, configure:
+
+| Cliente       | Main class             | Program arguments |
+|---------------|------------------------|-------------------|
+| ClienteMesa1  | `cliente.ClienteMesa`  | `1`               |
+| ClienteMesa2  | `cliente.ClienteMesa`  | `2`               |
+| ClienteMesa3  | `cliente.ClienteMesa`  | `3`               |
+
+4. Execute as configurações desejadas para abrir múltiplas janelas.
 
 ---
 
 ## ✅ Funcionalidades
 
-- [x] Enviar pedido da mesa ao servidor
-- [x] Servidor escuta múltiplas conexões simultâneas
-- [x] Interface Swing simples e funcional
-- [ ] Armazenamento dos pedidos recebidos
-- [ ] Exibição em tempo real dos pedidos no servidor
+- [x] Interface gráfica simples para seleção de itens
+- [x] Envio de pedidos via rede
+- [x] Servidor com múltiplos clientes simultâneos
+- [x] Uso de serialização para troca de objetos
+- [x] Cliente genérico com número de mesa parametrizável
 
 ---
 
 ## 📌 Observações
 
-Este projeto foi desenvolvido com fins didáticos para estudos de:
+Este projeto foi desenvolvido com fins didáticos para ensinar:
 - Programação orientada a objetos
+- Programação concorrente com threads
 - Comunicação cliente-servidor
-- Interfaces gráficas com Java Swing
-- Concorrência e threads
+- Interfaces gráficas em Java (Swing)
+
+---
+
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
 ## 👨‍🏫 Autor
 
 **Prof. Herysson**  
-Projeto de exemplo para uso em disciplinas de Programação Orientada a Objetos e Projeto de Software.
-
----
-
-## 📄 Licença
-
-Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Projeto acadêmico para as disciplinas de Programação Orientada a Objetos e Projeto de Software.
 
 
