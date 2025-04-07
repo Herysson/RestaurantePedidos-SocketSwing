@@ -9,25 +9,26 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClienteMesa1 extends JFrame {
+public class ClienteMesa extends JFrame {
+
+    private final int numeroMesa;
 
     private JCheckBox pizzaCheckBox;
     private JCheckBox refrigeranteCheckBox;
     private JCheckBox saladaCheckBox;
     private JCheckBox sobremesaCheckBox;
 
-    public ClienteMesa1() {
-        setTitle("Mesa 1 - Sistema de Pedidos");
+    public ClienteMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
+
+        setTitle("Mesa " + numeroMesa + " - Sistema de Pedidos");
         setSize(300, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Layout
         setLayout(new BorderLayout());
 
-        // Painel central com opções de pedidos
-        JPanel painelItens = new JPanel();
-        painelItens.setLayout(new GridLayout(0, 1));
+        JPanel painelItens = new JPanel(new GridLayout(0, 1));
 
         pizzaCheckBox = new JCheckBox("Pizza");
         refrigeranteCheckBox = new JCheckBox("Refrigerante");
@@ -41,7 +42,6 @@ public class ClienteMesa1 extends JFrame {
 
         add(painelItens, BorderLayout.CENTER);
 
-        // Botão de envio
         JButton enviarButton = new JButton("Enviar Pedido");
         enviarButton.addActionListener(e -> enviarPedido());
         add(enviarButton, BorderLayout.SOUTH);
@@ -60,7 +60,7 @@ public class ClienteMesa1 extends JFrame {
             return;
         }
 
-        Pedido pedido = new Pedido(1, itensSelecionados);
+        Pedido pedido = new Pedido(numeroMesa, itensSelecionados);
 
         try (Socket socket = new Socket("localhost", 12345);
              ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream())) {
@@ -74,8 +74,18 @@ public class ClienteMesa1 extends JFrame {
     }
 
     public static void main(String[] args) {
+        int mesa = 1; // padrão
+        if (args.length > 0) {
+            try {
+                mesa = Integer.parseInt(args[0]);
+            } catch (NumberFormatException e) {
+                System.out.println("⚠️ Número da mesa inválido. Usando mesa 1.");
+            }
+        }
+
+        int finalMesa = mesa;
         SwingUtilities.invokeLater(() -> {
-            ClienteMesa1 cliente = new ClienteMesa1();
+            ClienteMesa cliente = new ClienteMesa(finalMesa);
             cliente.setVisible(true);
         });
     }
